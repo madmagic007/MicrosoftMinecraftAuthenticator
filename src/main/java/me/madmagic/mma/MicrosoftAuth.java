@@ -21,7 +21,7 @@ public class MicrosoftAuth {
     private static final String xstsTokenurl = "https://xsts.auth.xboxlive.com/xsts/authorize";
     private static final String mcAuthUrl = "https://api.minecraftservices.com/authentication/login_with_xbox";
 
-    public static void login(UserAuth user) throws IOException {
+    public static void login(AuthCredentials user) throws IOException {
         Document doc = Jsoup.parse(RequestHelper.string(loginUrl));
         String ppft = doc.toString().split(",sFTTag:'<input type=\"hidden\" name=\"PPFT\"")[1].split("\"/>'")[0].split("value=\"")[1];
         String urlpost = doc.toString().split(",urlPost:'")[1].split("',")[0];//possibly this url is wrong
@@ -44,7 +44,7 @@ public class MicrosoftAuth {
         RequestHelper.clearCookies();
     }
 
-    public static void setXblToken(UserAuth user) throws IOException {
+    public static void setXblToken(AuthCredentials user) throws IOException {
         JSONObject post = new JSONObject()
                 .put("Properties", new JSONObject()
                         .put("AuthMethod", "RPS")
@@ -59,7 +59,7 @@ public class MicrosoftAuth {
         user.userHash = resp.getJSONObject("DisplayClaims").getJSONArray("xui").getJSONObject(0).getString("uhs");
     }
 
-    public static void setXstsToken(UserAuth user) throws IOException {
+    public static void setXstsToken(AuthCredentials user) throws IOException {
         JSONObject post = new JSONObject()
                 .put("Properties", new JSONObject()
                         .put("SandboxId", "RETAIL")
@@ -72,7 +72,7 @@ public class MicrosoftAuth {
         user.xstsToken = resp.getString("Token");
     }
 
-    public static void authenticateMC(UserAuth user) throws IOException {
+    public static void authenticateMC(AuthCredentials user) throws IOException {
         JSONObject post = new JSONObject()
                 .put("identityToken", String.format("XBL3.0 x=%s;%s", user.userHash, user.xstsToken));
 

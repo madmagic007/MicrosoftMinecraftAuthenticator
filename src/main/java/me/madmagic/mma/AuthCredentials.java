@@ -2,7 +2,7 @@ package me.madmagic.mma;
 
 import java.io.IOException;
 
-public class UserAuth {
+public class AuthCredentials {
 
     public final String login;
     public final String password;
@@ -12,7 +12,7 @@ public class UserAuth {
     public String xstsToken;
     public String mcAccessToken;
 
-    public UserAuth(String login, String password) {
+    public AuthCredentials(String login, String password) {
         this.login = login;
         this.password = password;
     }
